@@ -1,0 +1,31 @@
+## Vim JSHint
+
+A vim compiler plugin to run [eslint](https://eslint.org).
+
+### Installation 
+
+1. Install eslint globally:
+
+    sudo npm install -g eslint
+2. Install this plugin -- eg. using plugin manager such asVundle or Pathogen
+
+After you open a .js file, and save it, it will run eslint on the file
+and report errors in the location window.
+It will jump to the location of the first error.
+
+It has 2 options, controlled by global vars:
+
+    let g:eslint_onwrite = 1
+
+will cause it to run when file is saved. Default is on/1
+
+    let g:eslint_goto_error = 1
+
+will cause it to jump to first error. Default is off/0.
+
+
+ALso, running the command
+
+    :ESLint
+
+will trigger linting of current file.
