@@ -35,22 +35,37 @@ endif
 if exists(':ESLintFix') != 2
     command ESLintFix :call ESLintFix()
 endif
+
 "eslint:  npm install -g eslint
-if executable('eslint')
+"prefer locally installed eslint if found
+"1.find applicable package.json"
+let file_path = expand('%:p')
+let eslint_exe = "eslint"
+
+while (strridx(file_path, "/"))
+    let file_path = strpart(file_path, 0, strridx(file_path, "/"))
+    if (len(glob(file_path . "/package.json"))) 
+        if (executable(file_path . "/node_modules/eslint/bin/eslint.js"))
+            let eslint_exe = file_path . "/node_modules/eslint/bin/eslint.js"
+        endif
+    endif
+endwhile
+
+if executable(eslint_exe)
   
   execute 'setlocal efm=%f:\ line\ %l\\,\ col\ %c\\,\ %m'
 
 if g:eslint_autofix
     if g:eslint_quiet
-      execute 'setlocal makeprg=eslint\ --fix\ --quiet\ -f\ compact\ %' 
+      execute 'setlocal makeprg=' . eslint_exe . '\ --fix\ --quiet\ -f\ compact\ %' 
     else
-      execute 'setlocal makeprg=eslint\ --fix\ -f\ compact\ %' 
+      execute 'setlocal makeprg=' . eslint_exe . '\ --fix\ -f\ compact\ %' 
     endif
 else
     if g:eslint_quiet
-      execute 'setlocal makeprg=eslint\ --quiet\ -f\ compact\ %' 
+      execute 'setlocal makeprg=' . eslint_exe . '\ --quiet\ -f\ compact\ %' 
     else
-      execute 'setlocal makeprg=eslint\ -f\ compact\ %' 
+      execute 'setlocal makeprg=' . eslint_exe . '\ -f\ compact\ %' 
     endif
 endif
 
@@ -93,7 +108,7 @@ endfunction
 function! ESLintFix()
     let tmpfile = expand('%') . '_fixlint'
     exe ':noautocmd w! ' . tmpfile
-    exe ':silent !eslint --fix ' . tmpfile . ' &> /dev/null'
+    exe ':silent !' . eslint_exe . ' --fix ' . tmpfile . ' &> /dev/null'
     exe ':silent %!cat ' . tmpfile
     exe ':silent !rm ' . tmpfile
 endfunction
