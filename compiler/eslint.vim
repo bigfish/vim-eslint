@@ -156,7 +156,8 @@ function! ESLint2()
 endfunction
 
 function! ESLint_ChannelResponse(channel, result)
-    "echom 'ESLint_ChannelResponse'
+
+    "echom 'ESLint_ChannelResponse: ' . string(a:result)
     if has_key(a:result, 'fixed')
         let pos = winsaveview()
         let fixedCode = a:result['fixed']
@@ -179,5 +180,6 @@ function! ESLint_ChannelResponse(channel, result)
         "no errors -- close quickfix window
         :lcl
     endif
+
 endfunction
 

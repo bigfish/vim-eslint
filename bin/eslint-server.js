@@ -60,6 +60,7 @@ function lint(code, file) {
   try {
     var config = cli.getConfigForFile(file);
   } catch(e) {
+    console.error(e);
     console.log('unable to obtain eslint config for file:', file);
     return [];
   }
