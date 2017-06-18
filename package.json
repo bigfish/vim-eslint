@@ -1,6 +1,6 @@
 {
   "name": "vim-eslint",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A vim compiler plugin to run [eslint](https://eslint.org).",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/bigfish/vim-eslint#readme",
   "dependencies": {
-    "eslint": "3.10.2",
+    "eslint": "3.12.0",
     "espree": "3.3.2",
     "strip-ansi": "3.0.1",
     "tmp": "0.0.31"

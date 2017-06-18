@@ -63,9 +63,9 @@ function! ESLint(saved)
     endif
 
     if g:eslint_goto_error
-	silent lmake
+	    silent lmake
     else
-	silent lmake!
+	    silent lmake!
     endif
 
     "open local window with errors
@@ -168,14 +168,26 @@ function! ESLint_ChannelResponse(channel, result)
         call winrestview(pos)
     endif
 
+    if has_key(a:result, 'error')
+        echoerr a:result['error']
+    endif
+
     if has_key(a:result, 'errorfile') && len(a:result.errorfile)
         "show error messages
         if g:eslint_goto_error
             exe ':lf ' . a:result.errorfile
         else
-            exe ':lf! ' . a:result.errorfile
+            exe ':lg ' . a:result.errorfile
         endif
+
         :lope
+
+        if g:eslint_goto_error
+            :lfirst
+        else
+            "restore cursor position, as :lope always steals focus
+            :wincmd p
+        endif
     else
         "no errors -- close quickfix window
         :lcl

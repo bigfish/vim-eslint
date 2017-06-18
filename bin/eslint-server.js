@@ -62,7 +62,9 @@ function lint(code, file) {
   } catch(e) {
     console.error(e);
     console.log('unable to obtain eslint config for file:', file);
-    return [];
+    return {
+      error: e.message
+    };
   }
 
   //format the globals config as array, or CLIEngine will complain
